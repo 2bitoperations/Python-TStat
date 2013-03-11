@@ -273,6 +273,10 @@ class TStat:
 		"""Returns current temperature measurement."""
 		return self._get('temp', raw)
 
+	def getCurrentHumidity(self, raw=False):
+		"""Returns current humidity measurement."""
+		return self._get('humidity', raw)
+
 	def getTstatMode(self, raw=False):
 		"""Returns current thermostat mode."""
 		return self._get('tmode', raw)
@@ -407,7 +411,7 @@ def main():
 	import sys
 	addr = discover()
 
-	t = TStat(addr, api=API_CT50v109())
+	t = TStat(addr)
 	for cmd in sys.argv[1:]:
 		result = eval("t.%s(raw=True)" % cmd)
 		#print "%s: %s" % (cmd, result)

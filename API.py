@@ -198,7 +198,13 @@ class API_CT50v109(API):
 class API_CT30v192(API_CT50v109):
 		models = ['CT30 V1.92']
 
-APIs = [API_CT50v109, API_CT30v192]
+class API_CT80v113(API_CT50v109):
+    models = ['CT80 Rev B1 V1.00']
+    def __init__(self):
+        self.entries['humidity'] = APIEntry ([('/tstat/humidity', 'humidity')], 
+                                             [])
+
+APIs = [API_CT50v109, API_CT30v192, API_CT80v113]
 
 def getAPI(model):
 	for api in APIs:
