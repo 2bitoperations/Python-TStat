@@ -273,6 +273,12 @@ class TStat:
         """Returns current temperature measurement."""
         return self._get('temp', raw)
 
+    def getCurrentTempConvC(self, raw=False):
+        """Returns current temperature measurement, converted to C"""
+        tempF = self._get('temp', raw)
+
+        return ((tempF - 32.0) * (5.0 / 9.0))
+
     def getCurrentHumidity(self, raw=False):
         """Returns current humidity measurement."""
         return self._get('humidity', raw)
@@ -390,6 +396,21 @@ class TStat:
         lastRelayVal = eLog[len(eLog) - 1][relayIdx]
         return lastRelayVal
 
+    def isCoolStage1(self, raw=False):
+        relayState = self.getRelayState()
+        maskedRelay = 0b0001000 & relayState
+        return maskedRelay >> 3
+
+    def isCoolStage2(self, raw=False):
+        relayState = self.getRelayState()
+        maskedRelay = 0b0010000 & relayState
+        return maskedRelay >> 4
+
+    def isHeatStage1(self, raw=False):
+        relayState = self.getRelayState()
+        maskedRelay = 0b0000001 & relayState
+        return maskedRelay
+
     def getCoolState(self, raw=False):
         relayState = self.getRelayState()
         return self.extractCoolState(relayState)
@@ -441,9 +462,9 @@ def discover():
 
 def main():
     import sys
-    addr = discover()
+    #addr = discover()
 
-    t = TStat(addr)
+    t = TStat('192.168.5.129')
     for cmd in sys.argv[1:]:
         result = eval("t.%s(raw=True)" % cmd)
         #print "%s: %s" % (cmd, result)
