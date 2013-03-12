@@ -203,6 +203,8 @@ class API_CT80v113(API_CT50v109):
     def __init__(self):
         self.entries['humidity'] = APIEntry ([('/tstat/humidity', 'humidity')], 
                                              [])
+        self.entries['eventlog'] = APIEntry ([('/tstat/eventlog', 'eventlog')],
+                                             [])
 
 APIs = [API_CT50v109, API_CT30v192, API_CT80v113]
 
